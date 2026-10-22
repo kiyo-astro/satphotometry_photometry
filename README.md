@@ -15,6 +15,7 @@ Washington / IAU CPS SatHub.
 | `GEO_photometry_satTrack.ipynb` | GEO light curve from satellite-tracking data (per-frame plate solve, WCS-aligned field-star subtraction). |
 | `GEO_photometry_satTrack_integrated.ipynb` | Satellite-tracking GEO pipeline with automatic target detection (median of sampled frames, persistence ranking), an optional operator review gate, plate solving of star-aligned stacks on the raw frames, an integrated field-star zeropoint, dark/flat calibration after astrometry, and per-frame re-centring. |
 | `GEO_photometry_starTrack.ipynb` | GEO light curve from sidereal-tracking data (WCS registration, median field-star subtraction, two-anchor target interpolation). |
+| `GEO_photometry_starTrack_color.ipynb` | Sidereal-tracking GEO pipeline for a one-shot colour (Bayer) sensor: Bayer phases separated without interpolation, registration by phase correlation, median field-star subtraction, automatic straight-track detection with a GEO-rate prior and review gate, Gaia DR3 zeropoint per channel, light curves for R, G, B and all colours plus colour indices. |
 | `lightcurve_viewer.ipynb` | KUPT-lightcurveJSON viewer: light curve, Lomb-Scargle periodogram, phase folding, publication figures. |
 | `airmass.ipynb` | Atmospheric transmission from zeropoints measured at several altitudes. |
 
@@ -25,7 +26,7 @@ Typical flow: `SER2FITS` → `magzero` → one of the `*_photometry` notebooks �
 
 * Python 3.11 or later with `numpy`, `scipy`, `astropy`, `photutils`,
   `matplotlib`, `pandas`, `reproject`, `tqdm`, `opencv-python-headless`,
-  `jupyterlab` (or `nbconvert` for headless runs)
+  `jupyterlab` (or `nbconvert` for headless runs), `astroquery` for the Gaia zeropoints of the colour notebook
 * [satphotometry](https://github.com/kiyo-astro/satphotometry) library
   (`astrometry` and `serparser` modules) importable from the kernel
 * [astrometry.net](https://astrometry.net/) `solve-field` with index files
