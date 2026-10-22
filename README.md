@@ -13,6 +13,7 @@ Washington / IAU CPS SatHub.
 | `LEO_photometry.ipynb` | Light curve of a bright LEO object from a directory of FITS frames (automatic detection and tracking). |
 | `LEO_photometry_single.ipynb` | Single-frame version of the LEO measurement. |
 | `GEO_photometry_satTrack.ipynb` | GEO light curve from satellite-tracking data (per-frame plate solve, WCS-aligned field-star subtraction). |
+| `GEO_photometry_satTrack_integrated.ipynb` | Satellite-tracking GEO pipeline with automatic target detection (median of sampled frames, persistence ranking), an optional operator review gate, plate solving of star-aligned stacks on the raw frames, an integrated field-star zeropoint, dark/flat calibration after astrometry, and per-frame re-centring. |
 | `GEO_photometry_starTrack.ipynb` | GEO light curve from sidereal-tracking data (WCS registration, median field-star subtraction, two-anchor target interpolation). |
 | `lightcurve_viewer.ipynb` | KUPT-lightcurveJSON viewer: light curve, Lomb-Scargle periodogram, phase folding, publication figures. |
 | `airmass.ipynb` | Atmospheric transmission from zeropoints measured at several altitudes. |
@@ -61,6 +62,30 @@ and `SATPHOT_SOLVE_FIELD_DIR` override `paths.json`. `paths.json`, `input/`,
 Each notebook starts with `from satphot_paths import *`, which provides
 `PATH_images`, `PATH_input`, `PATH_output` and `PATH_work`; the target
 files for a run are then given relative to those roots in the settings cells.
+
+## Integrated satellite-tracking pipeline
+
+`GEO_photometry_satTrack_integrated.ipynb` runs in two stages. Stage 1 converts
+the SER file, builds a detection image (median of frames sampled over the
+capture: field stars drift out, the tracked object stays), lists ranked
+candidates and saves a review figure under `output/review/`. Stage 2 locates
+the target in every frame, estimates the star drift, plate-solves star-aligned
+stacks of the raw frames (clean star lists are sent to `solve-field`, with
+the telescope position from the SharpCap CameraSettings file as the hint),
+interpolates a WCS for every frame, applies dark/flat to calibrated copies,
+measures the zeropoint on calibrated stacks, subtracts the field stars and
+performs the photometry.
+
+Environment variables for unattended runs:
+
+| Variable | Meaning |
+| --- | --- |
+| `SATPHOT_STAGE` | `all` (default), `1` or `2` (stage 2 reloads the stage-1 state) |
+| `SATPHOT_REQUIRE_CONFIRMATION` | `0` disables the operator review gate |
+| `SATPHOT_TARGET_APPROVED` | `1` approves the detected candidate after reviewing the figure |
+
+SharpCap stores 8-bit master darks/flats as 16-bit values (x256); the
+notebook detects this and scales the master dark.
 
 ## Headless execution
 
