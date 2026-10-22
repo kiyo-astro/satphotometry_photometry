@@ -1,0 +1,7 @@
+{
+    "images": "/path/to/observation/images",
+    "input": "input",
+    "output": "output",
+    "work": "output",
+    "solve_field_dir": "~/astrometry/bin"
+}

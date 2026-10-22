@@ -1,4 +1,9 @@
 input/
 output/
+work/
+images/
 tmp/
+paths.json
+.ipynb_checkpoints/
+__pycache__/
 .DS_Store
