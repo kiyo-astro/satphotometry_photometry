@@ -67,8 +67,8 @@ files for a run are then given relative to those roots in the settings cells.
 ## Integrated satellite-tracking pipeline
 
 `GEO_photometry_satTrack_integrated.ipynb` runs in two stages. Stage 1 converts
-the SER file, builds a detection image (median of frames sampled over the
-capture: field stars drift out, the tracked object stays), lists ranked
+the SER file, builds a detection image (percentile image of frames sampled over
+the capture: field stars drift out, the tracked object stays), lists ranked
 candidates and saves a review figure under `output/review/`. Stage 2 locates
 the target in every frame, estimates the star drift, plate-solves star-aligned
 stacks of the raw frames (clean star lists are sent to `solve-field`, with
