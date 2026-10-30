@@ -88,13 +88,16 @@ Environment variables for unattended runs:
 SharpCap stores 8-bit master darks/flats as 16-bit values (x256); the
 notebook detects this and scales the master dark.
 
-Faint targets under a bright (moonlit) sky: the detection image is flattened
-with block medians (`detection_background_box`) and the master dark is
-subtracted from it before thresholding, so that vignetting and the fixed
-pattern do not set the threshold; raise `detection_sample_count` (e.g. 155)
-and lower `detection_sigma` (3-4), the persistence ranking then selects the
-target among the noise blobs. `centroid_track_window` (e.g. 15 frames)
-replaces the noise-driven per-frame centroids by a running-median track.
+Faint targets under a bright (moonlit) sky: the detection image is a
+percentile image of the sampled frames (`detection_percentile`, 80 by
+default: a target that flashes only part of the time survives, field stars
+are still rejected), flattened with block medians
+(`detection_background_box`) and dark-subtracted before thresholding, so that
+vignetting and the fixed pattern do not set the threshold; raise
+`detection_sample_count` (e.g. 155) and lower `detection_sigma` (3-4), the
+persistence ranking then selects the target among the noise blobs.
+`centroid_track_window` (e.g. 15 frames) replaces the noise-driven per-frame
+centroids by a running-median track.
 
 ## Headless execution
 
